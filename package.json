@@ -1,14 +1,14 @@
 {
-  "name": "@lffg-scripts/ms-to-pdf",
+  "name": "@lffg-scripts/office-to-pdf",
   "description": "Convert Microsoft Office documents (currently .docx and .pttx) to PDF using LibreOffice headless' APIs.",
   "bin": {
-    "mtp": "src/cli.js",
-    "ms-to-pdf": "src/cli.js",
-    "lffg--ms-to-pdf": "src/cli.js"
+    "otp": "src/cli.js",
+    "office-to-pdf": "src/cli.js",
+    "lffg--office-to-pdf": "src/cli.js"
   },
   "version": "0.0.0",
   "license": "MIT",
-  "repository": "https://github.com/lffg/ms-to-pdf",
+  "repository": "https://github.com/lffg/office-to-pdf",
   "scripts": {
     "dev": "NODE_ENV=development node src/cli",
     "start": "NODE_ENV=production node src/cli",
