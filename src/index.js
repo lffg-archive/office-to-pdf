@@ -1,6 +1,14 @@
+const { makeModules } = require('./modules');
+
+const SUPPORTED_ACTIONS = ['all', 'select'];
+
 function run() {
-  console.log('Hello, world!');
-  return Promise.resolve();
+  const { getAction } = makeModules({
+    supportedActions: SUPPORTED_ACTIONS
+  });
+
+  const selectedAction = getAction();
+  console.log(selectedAction);
 }
 
 module.exports = {

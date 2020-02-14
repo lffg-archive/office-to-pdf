@@ -4,6 +4,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 const { run } = require('.');
 
-run()
-  .then(() => process.exit(0))
-  .catch((error) => console.error(error) || process.exit(1));
+try {
+  run();
+} catch (error) {
+  process.stderr.write(error + '\n');
+  process.exit(1);
+}
