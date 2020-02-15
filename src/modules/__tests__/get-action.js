@@ -10,7 +10,7 @@ const createMock = (processArgv) => {
   return [makeGetAction(deps), deps];
 };
 
-describe('readdir', () => {
+describe('get-action', () => {
   it('should return the third element of process.argv if a valid action if given', () => {
     const [getAction, deps] = createMock([null, null, 'select']);
     expect(getAction()).toBe('select');
