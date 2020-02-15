@@ -4,8 +4,15 @@ const { makeGetAction } = require('./get-action');
 const { makeReaddir } = require('./readdir');
 
 function makeModules({ supportedActions }) {
-  const getAction = makeGetAction({ supportedActions, printer });
-  const readdir = makeReaddir({ fs });
+  const getAction = makeGetAction({
+    processArgv: process.argv,
+    supportedActions,
+    printer
+  });
+
+  const readdir = makeReaddir({
+    fs
+  });
 
   return {
     getAction,
