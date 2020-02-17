@@ -15,7 +15,7 @@ const createMock = () => {
   return [makeGetFiles(deps), deps];
 };
 
-describe('readdir', () => {
+describe('get-files', () => {
   it('should call readdir passing the given directory', async () => {
     const [getFiles, deps] = createMock();
     await getFiles({ showSelect: false, directory: './path' });
