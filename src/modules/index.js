@@ -1,6 +1,8 @@
 const fs = require('fs');
 const printer = require('../utils/printer');
+const { select } = require('../utils/select');
 const { makeGetAction } = require('./get-action');
+const { makeGetFiles } = require('./get-files');
 const { makeReaddir } = require('./readdir');
 
 function makeModules({ supportedActions }) {
@@ -14,9 +16,15 @@ function makeModules({ supportedActions }) {
     fs
   });
 
+  const getFiles = makeGetFiles({
+    readdir,
+    select
+  });
+
   return {
     getAction,
-    readdir
+    readdir,
+    getFiles
   };
 }
 
