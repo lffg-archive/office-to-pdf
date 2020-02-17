@@ -12,6 +12,7 @@ function makeGetAction({ processArgv, supportedActions, printer }) {
 
     if (!supportedActions.includes(action)) {
       return printer.die(
+        // istanbul ignore next
         (chalk) =>
           chalk`The "{underline ${action}}" action is not supported. ${more}`
       );
