@@ -3,8 +3,15 @@ function computekeyValueList(files) {
 }
 
 function makeGetFiles({ readdir, select }) {
-  return async function getFiles({ showSelect, directory }) {
-    const allFiles = readdir(directory).filter((dirent) => dirent.isFile());
+  return async function getFiles({ allowDotFiles, showSelect, directory }) {
+    const allFiles = readdir(directory).filter(
+      (dirent) =>
+        // Only allow files:
+        dirent.isFile() &&
+        // And... Forbid dotfiles, unless all dotfiles are allowed with the
+        // `allowDotFiles` boolean:
+        (!dirent.name.startsWith('.') || allowDotFiles)
+    );
 
     const selectedFiles = showSelect
       ? await select(

@@ -4,45 +4,68 @@ const createMock = () => {
   const readdirReturnValue = [
     { name: 'file-a', isFile: () => true },
     { name: 'file-b', isFile: () => true },
+    { name: '.dot-f', isFile: () => true },
     { name: 'dir-1', isFile: () => false }
   ];
 
   const deps = {
     readdir: jest.fn(() => readdirReturnValue),
-    select: jest.fn((val) => val.filter(({ name }) => name.endsWith('a')))
+    select: jest.fn()
   };
 
   return [makeGetFiles(deps), deps];
 };
 
 describe('get-files', () => {
-  it('should call readdir passing the given directory', async () => {
-    const [getFiles, deps] = createMock();
-    await getFiles({ showSelect: false, directory: './path' });
-    expect(deps.readdir).toHaveBeenCalledWith('./path');
+  it('should return the valid files', async () => {
+    const [getFiles] = createMock();
+
+    const files = await getFiles({
+      allowDotFiles: false,
+      showSelect: false,
+      directory: './path'
+    });
+
+    expect(files.map(({ name }) => name)).toEqual(['file-a', 'file-b']);
+  });
+
+  it('should return the valid files AND the dotfiles if `allowDotFiles` option is true', async () => {
+    const [getFiles] = createMock();
+
+    const files = await getFiles({
+      allowDotFiles: true,
+      showSelect: false,
+      directory: './path'
+    });
+
+    expect(files.map(({ name }) => name)).toEqual([
+      'file-a',
+      'file-b',
+      '.dot-f'
+    ]);
   });
 
   it('should call select if `showSelect` is true', async () => {
     const [getFiles, deps] = createMock();
-    await getFiles({ showSelect: true, directory: './path' });
+
+    await getFiles({
+      allowDotFiles: false,
+      showSelect: true,
+      directory: './path'
+    });
+
     expect(deps.select).toHaveBeenCalledTimes(1);
   });
 
-  it('should return all files if `showSelect` is false', async () => {
-    const [getFiles] = createMock();
-    const files = await getFiles({ showSelect: false, directory: './path' });
+  it('should NOT call `select` if `showSelect` is false', async () => {
+    const [getFiles, deps] = createMock();
 
-    expect(files.map(({ name }) => name)).toEqual(
-      expect.arrayContaining(['file-a', 'file-b'])
-    );
-  });
+    await getFiles({
+      allowDotFiles: false,
+      showSelect: false,
+      directory: './path'
+    });
 
-  it('may filter files if `showSelect` is true', async () => {
-    const [getFiles] = createMock();
-    const files = await getFiles({ showSelect: true, directory: './path' });
-
-    expect(files.map(({ name }) => name)).toEqual(
-      expect.arrayContaining(['file-a'])
-    );
+    expect(deps.select).toHaveBeenCalledTimes(0);
   });
 });
