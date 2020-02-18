@@ -8,8 +8,8 @@ const supportedActions = [
     flags: ['--allow-dotfiles']
   },
   {
-    name: '--help',
-    aliases: ['help']
+    name: 'help',
+    aliases: ['--help', '-h']
   }
 ];
 
