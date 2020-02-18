@@ -1,3 +1,4 @@
+const { SELECT_ACTION } = require('./config/actions');
 const { getAction, getFiles } = require('./modules');
 
 async function run() {
@@ -9,7 +10,7 @@ async function run() {
   }
 
   const files = await getFiles({
-    showSelect: selectedAction === 'select',
+    showSelect: selectedAction === SELECT_ACTION,
     directory: process.cwd()
   });
 
