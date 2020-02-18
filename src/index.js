@@ -1,7 +1,7 @@
 const { getAction, getFiles } = require('./modules');
 
 async function run() {
-  const selectedAction = getAction();
+  const { selectedAction } = getAction();
 
   if (selectedAction === '--help') {
     console.log('TODO: Write some help information.');

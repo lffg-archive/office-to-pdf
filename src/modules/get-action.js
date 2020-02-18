@@ -1,24 +1,42 @@
 const more = 'Use `--help` to learn more.';
 
+function findActionByNameOrAlias(actions, searchTerm) {
+  return actions.find(
+    ({ name, aliases = [] }) =>
+      name === searchTerm || aliases.includes(searchTerm)
+  );
+}
+
+function getActiveFlags(actionFlags = [], argvFlags = []) {
+  return actionFlags.filter((flag) => argvFlags.includes(flag));
+}
+
 function makeGetAction({ processArgv, supportedActions, printer }) {
   return function getAction() {
-    const [, , action] = processArgv;
+    const [, , actionSearchTerm, ...flags] = processArgv;
 
-    if (!action) {
+    if (!actionSearchTerm) {
       return printer.die(
         `To use this script, you must select an action. ${more}`
       );
     }
 
-    if (!supportedActions.includes(action)) {
+    const action = findActionByNameOrAlias(supportedActions, actionSearchTerm);
+
+    if (!action) {
       return printer.die(
         // istanbul ignore next
         (chalk) =>
-          chalk`The "{underline ${action}}" action is not supported. ${more}`
+          chalk`The "{underline ${actionSearchTerm}}" action is not supported. ${more}`
       );
     }
 
-    return action;
+    const activeFlags = getActiveFlags(action.flags, flags);
+
+    return {
+      selectedAction: action.name,
+      activeFlags
+    };
   };
 }
 
