@@ -1,4 +1,4 @@
-const more = 'Use the `--help` option to learn more.';
+const more = 'Use `--help` to learn more.';
 
 function makeGetAction({ processArgv, supportedActions, printer }) {
   return function getAction() {

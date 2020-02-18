@@ -1,6 +1,6 @@
 const { makeModules } = require('./modules');
 
-const SUPPORTED_ACTIONS = ['all', 'select'];
+const SUPPORTED_ACTIONS = ['all', 'select', '--help'];
 
 async function run() {
   const { getAction, getFiles } = makeModules({
@@ -8,6 +8,11 @@ async function run() {
   });
 
   const selectedAction = getAction();
+
+  if (selectedAction === '--help') {
+    console.log('TODO: Write some help information.');
+    return;
+  }
 
   const files = await getFiles({
     showSelect: selectedAction === 'select',
